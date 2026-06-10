@@ -1,0 +1,39 @@
+Tool Description:
+
+Retrieves annual energy consumption records for publicly operated buildings in the City of Toronto,
+based on Toronto open data covering approximately the last 15 years.
+The tool returns structured JSON records describing building-level energy use, including the reporting year,
+building or facility name, address details, postal code, electricity consumption, natural gas consumption,
+and related energy-performance fields when available in the source dataset.
+
+This tool is intended for searching and filtering historical municipal building energy consumption data.
+It can be used to compare energy usage across years, identify buildings in a specific postal-code area,
+inspect electricity and natural gas consumption trends, or retrieve a limited sample of matching public-building
+records for downstream analysis.
+
+Results are filtered by the requested year and optionally by a full or partial postal code.
+The postal code filter supports prefix-style searches, making it possible to search by full postal code,
+forward sortation area, or other partial postal-code fragments. The number of returned records can be controlled
+with a result limit to avoid overly large responses. 
+
+The tool returns a JSON array of matching records. Each record represents one building or facility energy-consumption
+entry for a given year, subject to availability in the source dataset. Field names and units should reflect the source
+dataset, but typical fields may include building name, street address, postal code, reporting year,
+electricity consumption, natural gas consumption, total energy consumption, greenhouse gas emissions, floor area,
+and other metadata if present. If the JSON array is empty, it means the dataset has no entries for this specific request.
+When displaying results, don't include the x and y coordinates unless they are requested by the user.
+
+
+Parameters descriptions:
+
+POSTAL_CODE : A full or partial postal code used to filter buildings by location.
+This can be a complete Canadian postal code, such as M5H 2N2, or a partial postal code, such as M5H,
+to return records from a broader area. The parameter is format and case sensitive, so the input must
+follow this regex : ^[A-Z]\d[A-Z] \d[A-Z]\d$ for a full postal code, and ^[A-Z]\d[A-Z]$ for a partial postal code.
+
+YEAR : The calendar or reporting year for which energy-consumption records should be returned.
+Use this parameter to retrieve records for a specific year in the dataset. The value should correspond to a year
+available in the Toronto open data source, which are ranging from 2011 to 2024.
+
+LIMIT : The maximum number of records to return. Use this parameter to control response size and avoid fetching
+more records than needed. The tool should return no more than this number of matching records. The range goes from 0 to 1000.
